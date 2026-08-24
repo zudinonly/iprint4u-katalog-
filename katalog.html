@@ -24,8 +24,6 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
       transition: all 0.3s;
     }
-
-    /* Navbar Sticky */
     .navbar-custom {
       background: white;
       box-shadow: 0 2px 15px rgba(0,0,0,0.08);
@@ -45,8 +43,6 @@
       color: #1e40af;
     }
     .navbar-logo { max-height: 40px; }
-
-    /* Header Katalog */
     .header-katalog {
       background: linear-gradient(rgba(15,23,42,0.55), rgba(15,23,42,0.55)), url('header-bg.jpg');
       background-size: cover;
@@ -65,7 +61,6 @@
       top: 15px;
       right: 20px;
     }
-
     .product-card {
       background: var(--card);
       border-radius: 14px;
@@ -180,7 +175,6 @@
 
   <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
 
-  <!-- Navbar Sticky -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
       <a class="navbar-brand" href="index.html">
@@ -200,7 +194,6 @@
     </div>
   </nav>
 
-  <!-- Header (header-bg + logo) -->
   <div class="header-katalog">
     <button id="darkModeToggle" class="btn btn-light btn-sm dark-toggle">
       <i class="fas fa-moon"></i>
@@ -238,7 +231,6 @@
     </nav>
   </div>
 
-  <!-- Footer -->
   <footer style="background:#f8fafc; border-top:1px solid #e2e8f0; padding:22px 0; margin-top:50px; font-size:0.85rem; color:#64748b;">
     <div class="container">
       <div class="text-center mb-3">
@@ -246,7 +238,7 @@
       </div>
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
         <div class="text-center text-md-start">
-          © 2026 All rights reserved &nbsp;•&nbsp; iPrint4U &nbsp;•&nbsp; Shah Alam, Selangor
+          © 2026 All rights reserved • iPrint4U • Shah Alam, Selangor
         </div>
         <div class="text-center text-md-end">
           <a href="#" style="color:#64748b; text-decoration:none; margin:0 8px;">Privacy Policy</a>
@@ -272,7 +264,10 @@
         <div class="modal-body text-center">
           <img id="modalImage" class="modal-img" alt="">
           <div class="mt-3 d-flex justify-content-center gap-2 flex-wrap">
-            <button class="btn btn-success" id="orderWhatsAppBtn"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+            <!-- BUTANG ORDER (sudah betul) -->
+            <a id="orderWhatsAppBtn" class="btn btn-success" href="https://wa.me/60133867722" target="_blank" rel="noopener">
+              <i class="fab fa-whatsapp"></i> Order via WhatsApp
+            </a>
             <button class="btn btn-outline-primary" id="modalShareBtn"><i class="fas fa-share-alt"></i> Share</button>
           </div>
         </div>
@@ -347,12 +342,20 @@
       }, 200);
     }
 
+    function updateOrderLink() {
+      const msg = encodeURIComponent(
+        `Saya berminat dengan produk ${currentProduct} dari katalog iPrint4U.\nBoleh saya tahu:\n1. Harga untuk produk ini\n2. Jenis bahan\n3. Cara order\nTerima kasih.`
+      );
+      document.getElementById('orderWhatsAppBtn').href = `https://wa.me/60133867722?text=${msg}`;
+    }
+
     function showImage(id, image) {
       currentProduct = id;
       document.getElementById('modalTitle').textContent = id + ' - iPrint4U';
       const img = document.getElementById('modalImage');
       img.src = image;
       img.onerror = () => img.src = image.replace('.jpg','.png');
+      updateOrderLink();
       new bootstrap.Modal(document.getElementById('imageModal')).show();
     }
 
@@ -363,10 +366,6 @@
       else navigator.clipboard.writeText(url).then(() => alert('Link disalin!\n'+url));
     }
 
-    document.getElementById('orderWhatsAppBtn').onclick = () => {
-      const msg = encodeURIComponent(`saya berminat dengan produk ${currentProduct} dari katalog iPrint4U.\nBoleh saya tahu: 1. Harga untuk produk ini 2. Jenis bahan 3. Cara order\nTerima kasih.`);
-      window.open(`https://wa.me/60133867722?text=${msg}`, '_blank');
-    };
     document.getElementById('modalShareBtn').onclick = () => shareProduct(currentProduct);
 
     function doSearch() {
